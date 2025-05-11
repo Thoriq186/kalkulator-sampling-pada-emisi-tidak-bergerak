@@ -2,7 +2,7 @@ import streamlit as st
 import math
 
 # Konfigurasi awal halaman
-st.set_page_config(page_title="Edukasi Limbah Industri", layout="centered")
+st.set_page_config(page_title="Menentukan Titik Sampling Isokinetik", layout="centered")
 
 # Inisialisasi session state
 if "halaman" not in st.session_state:
@@ -16,7 +16,7 @@ def buka_about():
 
 # ================= HALAMAN BERANDA =================
 if st.session_state["halaman"] == "beranda":
-    st.markdown("<h1 style='text-align: center;'>📚 Edukasi Limbah Industri</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center;'>Menentukan Titik Sampling Isokinetik</h1>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center;'>Simulasi interaktif & edukatif untuk pengolahan limbah industri</p>", unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
@@ -77,7 +77,7 @@ elif st.session_state["halaman"] == "metode_1":
 elif st.session_state["halaman"] == "about":
     st.title("ℹ️ Tentang Aplikasi")
     st.write("""
-    Aplikasi ini dikembangkan untuk edukasi dan simulasi dalam bidang pengolahan limbah industri.
+    Web ini dibuat untuk mempelajari dan mengaplikasikan python secara langsung.
 
     **Fitur yang tersedia:**
     - Kalkulator Metode 1 Isokinetik
