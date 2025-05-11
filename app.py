@@ -3,8 +3,8 @@ import math
 
 st.set_page_config(page_title="Aplikasi Sampling Isokinetik", layout="centered")
 
-# Navigasi dengan Sidebar
-menu = st.sidebar.radio("📂 Menu", ["Metode 1 Isokinetik", "About Us"])
+# Navigasi halaman di bagian atas
+menu = st.radio("📂 Pilih Halaman", ["Metode 1 Isokinetik", "About Us"], horizontal=True)
 
 # Halaman: Metode 1 Isokinetik
 if menu == "Metode 1 Isokinetik":
@@ -15,13 +15,12 @@ if menu == "Metode 1 Isokinetik":
     Aplikasi ini membantu menghitung titik sampling pada cerobong untuk metode isokinetik berdasarkan jumlah titik lintas dan diameter cerobong.
     """)
 
-    with st.sidebar:
-        st.header("Input Parameter")
-        diameter = st.number_input("Diameter Cerobong (cm)", min_value=1.0, step=0.1)
-        jumlah_titik = st.number_input("Jumlah Titik Lintas", min_value=1, step=1)
-        panjang_nipple = st.number_input("Panjang Nipple (cm)", min_value=0.0, step=0.1)
-        upstream = st.number_input("Jarak Upstream (cm)", min_value=0.0, step=0.1)
-        downstream = st.number_input("Jarak Downstream (cm)", min_value=0.0, step=0.1)
+    st.subheader("🧮 Input Parameter")
+    diameter = st.number_input("Diameter Cerobong (cm)", min_value=1.0, step=0.1)
+    jumlah_titik = st.number_input("Jumlah Titik Lintas", min_value=1, step=1)
+    panjang_nipple = st.number_input("Panjang Nipple (cm)", min_value=0.0, step=0.1)
+    upstream = st.number_input("Jarak Upstream (cm)", min_value=0.0, step=0.1)
+    downstream = st.number_input("Jarak Downstream (cm)", min_value=0.0, step=0.1)
 
     st.markdown("---")
 
@@ -65,4 +64,3 @@ elif menu == "About Us":
     Aplikasi ini bersifat edukatif dan bebas digunakan.
     """)
     st.caption("📘 Dibuat dengan Streamlit - Open Source Project.")
-
