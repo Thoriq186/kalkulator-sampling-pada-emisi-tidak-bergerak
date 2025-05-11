@@ -1,38 +1,36 @@
 import streamlit as st
 import math
 
-st.set_page_config(page_title="Kalkulator pH & pOH", layout="centered")
+st.set_page_config(page_title="Metode 1 Isokinetik Pada Emisi Tidak Bergerak", layout="centered")
 
 # Title
-st.title("🧪 Kalkulator pH & pOH Larutan")
+st.title("📏Kalkulator Titik Sampling Pada Emisi Tidak Bergerak💨")
+st.header(":blue[Metode 1]")
 
 # Description
 st.write("""
-Aplikasi ini membantu menghitung nilai pH dan pOH larutan berdasarkan input konsentrasi ion [H⁺] atau [OH⁻].
+Kalkulator ini membantu menghitung titik sampling yang diperlukan pada cerobong dengan metode isokinetik
 """)
 
 # Sidebar for input
 with st.sidebar:
     st.header("Input Parameter")
-    ion_type = st.radio("Pilih jenis ion yang diketahui:", ("[H⁺]", "[OH⁻]"))
-    concentration = st.number_input(f"Masukkan konsentrasi {ion_type} (mol/L):", min_value=1e-14, max_value=1.0, format="%.2e")
-    show_dark_mode = st.checkbox("Aktifkan Mode Gelap")
+    namber = st.number_input(
+    "DIameter Cerobong", value=None, placeholder="Type a number...")
+    nimber = st.number_input(
+    "Panjang Nipple", value=None, placeholder="Type a number...")
+    number = st.number_input(
+    "Banyaknya Titik Lintas", value=None, placeholder="Type a number...")
+    nember = st.number_input(
+    "Upstream", value=None, placeholder="Type a number...")
+    nomber = st.number_input(
+    "Downstream", value=None, placeholder="Type a number...")
 
-# Apply dark mode
-if show_dark_mode:
-    st.markdown(
-        """
-        <style>
-            body { background-color: #1e1e1e; color: white; }
-            .stApp { background-color: #1e1e1e; }
-        </style>
-        """, unsafe_allow_html=True
-    )
 
 # Divider
 st.markdown("---")
 
-if st.button("Hitung pH dan pOH"):
+if st.button("Hitung Titik yang Akan Disampling"):
     if ion_type == "[H⁺]":
         pH = -math.log10(concentration)
         pOH = 14 - pH
