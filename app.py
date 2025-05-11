@@ -1,21 +1,42 @@
 import streamlit as st
 import math
 
-st.set_page_config(page_title="Aplikasi Sampling Isokinetik", layout="centered")
+st.set_page_config(page_title="Simulasi Edukasi Limbah Industri", layout="centered")
 
-# Navigasi halaman di bagian atas
-menu = st.radio("📂 Pilih Halaman", ["Metode 1 Isokinetik", "About Us"], horizontal=True)
+# Session state untuk navigasi
+if "halaman" not in st.session_state:
+    st.session_state["halaman"] = "home"
 
-# Halaman: Metode 1 Isokinetik
-if menu == "Metode 1 Isokinetik":
-    st.title("📏 Kalkulator Titik Sampling Pada Emisi Tidak Bergerak 💨")
-    st.header(":blue[Metode 1 - Isokinetik Sampling]")
+def go_to_metode_1():
+    st.session_state["halaman"] = "metode_1"
 
+# --- Tampilan Home ---
+if st.session_state["halaman"] == "home":
+    st.markdown("<h1 style='text-align: center;'>♻️ Manajemen & Edukasi Limbah Industri ♻️</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center;'>Belajar dan simulasi proses pengolahan limbah industri secara interaktif dan edukatif.</p>", unsafe_allow_html=True)
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.image("https://img.icons8.com/external-flat-juicy-fish/512/external-process-engineering-flat-flat-juicy-fish.png", width=100)
+        st.button("🧪 Edukasi Proses", on_click=go_to_metode_1)
+        st.caption("Simulasi proses pengolahan limbah dari awal hingga akhir.")
+
+    with col2:
+        st.image("https://img.icons8.com/color/512/laboratory.png", width=100)
+        st.caption("Hitung nilai COD, BOD, TSS, dan pH dari data sampel.")
+
+    with col3:
+        st.image("https://img.icons8.com/office/512/water-pollution.png", width=100)
+        st.caption("Simulasi interaktif pengolahan limbah berbagai jenis.")
+
+# --- Halaman Metode 1 ---
+elif st.session_state["halaman"] == "metode_1":
+    st.title("📏 Kalkulator Titik Sampling - Metode 1 Isokinetik 💨")
     st.write("""
     Aplikasi ini membantu menghitung titik sampling pada cerobong untuk metode isokinetik berdasarkan jumlah titik lintas dan diameter cerobong.
     """)
 
-    st.subheader("🧮 Input Parameter")
     diameter = st.number_input("Diameter Cerobong (cm)", min_value=1.0, step=0.1)
     jumlah_titik = st.number_input("Jumlah Titik Lintas", min_value=1, step=1)
     panjang_nipple = st.number_input("Panjang Nipple (cm)", min_value=0.0, step=0.1)
@@ -39,28 +60,10 @@ if menu == "Metode 1 Isokinetik":
                 st.write(f"Titik {i}: {jarak_dari_tepi} cm dari tepi cerobong")
 
             st.success("Perhitungan selesai.")
-
             st.subheader("📋 Tabel Titik Sampling")
             st.table({f"Titik {i+1}": [f"{hasil[i]} cm"] for i in range(len(hasil))})
         else:
             st.error("Masukkan diameter dan jumlah titik yang valid.")
 
-# Halaman: About Us
-elif menu == "About Us":
-    st.title("👨‍🔬 Tentang Aplikasi Ini")
-    st.write("""
-    Aplikasi ini dikembangkan untuk membantu teknisi atau mahasiswa dalam melakukan perhitungan titik sampling berdasarkan 
-    **Metode 1 Isokinetik** yang digunakan dalam pengambilan sampel emisi dari sumber tidak bergerak seperti cerobong asap.
-
-    **Fitur Aplikasi:**
-    - Perhitungan otomatis berdasarkan jumlah titik lintas dan diameter cerobong.
-    - Visualisasi sederhana hasil sampling.
-    - Mudah digunakan dan berbasis web dengan Streamlit.
-
-    **Pengembang:**
-    - Nama: [Isikan Nama Anda]
-    - Kontak: [Email atau media sosial]
-
-    Aplikasi ini bersifat edukatif dan bebas digunakan.
-    """)
-    st.caption("📘 Dibuat dengan Streamlit - Open Source Project.")
+    if st.button("🔙 Kembali ke Beranda"):
+        st.session_state["halaman"] = "home"
