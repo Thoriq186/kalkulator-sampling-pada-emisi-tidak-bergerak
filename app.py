@@ -4,13 +4,9 @@ import math
 st.set_page_config(page_title="Metode 1 Isokinetik Pada Emisi Tidak Bergerak", layout="centered")
 
 # Title
-st.title(" 📏 Kalkulator Titik Sampling Pada Emisi Tidak Bergerak💨")
+st.title(" 📏 Kalkulator Titik Sampling Pada Emisi Tidak Bergerak")
 st.markdown(
-    "<p style='font-size:14px;'>📏 Kalkulator Titik Sampling Emisi Tidak Bergerak 💨</p>",
-    unsafe_allow_html=True
-)
-st.markdown(
-    "<p style='font-size:13px; color:gray; text-align:center;'>Aplikasi untuk industri skala kecil hingga menengah</p>",
+    "<p style='font-size:18px; color:gray; text-align:center;'>yang berada di industri menengah ke bawah💨</p>",
     unsafe_allow_html=True
 )
 
