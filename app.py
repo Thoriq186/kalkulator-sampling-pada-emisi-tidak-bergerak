@@ -15,7 +15,7 @@ Aplikasi ini akan menghitung lokasi titik sampling cerobong berdasarkan diameter
 halaman = st.radio("Pilih Halaman", [ "Penjelasan & Informasi 💡", "Kalkulator Titik sampling 🧮"])
 
 if halaman == "Penjelasan & Informasi 💡":
-    st.sidebar("Informasi Mengenai sampling Emisi Tidak Bergerak")
+    st.title("Informasi Mengenai sampling Emisi Tidak Bergerak")
 
     st.markdown("""
     ## Apa itu Sampling Emisi Tidak Bergerak?
