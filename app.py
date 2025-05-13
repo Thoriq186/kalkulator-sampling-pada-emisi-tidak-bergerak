@@ -50,18 +50,26 @@ if halaman == "Penjelasan & Informasi 💡":
 elif halaman == "Kalkulator Titik Sampling 🧮":
     st.title("Kalkulator Titik Sampling Cerobong Secara Isokinetik")
     st.markdown(r"""
-    Penentuan titik sampling dilakukan berdasarkan metode *equal area*, membagi luas penampang cerobong menjadi beberapa bagian sama.
+### 📐 Rumus Dasar
 
-    Rumus dasar:
-    \[ r_i = R \sqrt{\frac{i}{n}} \]
-    \[ d_i = R - r_i \]
+Untuk metode equal area:
 
-    Dimana:
-    - \( R \): Jari-jari cerobong (m)
-    - \( i \): Titik ke-i
-    - \( n \): Jumlah titik
-    - \( d_i \): Jarak dari dinding
-    """)
+$$
+r_i = R \cdot \sqrt{\frac{i}{n}}
+$$
+
+$$
+d_i = R - r_i
+$$
+
+**Dimana:**
+
+- \( R \): Jari-jari cerobong (m)
+- \( i \): Titik sampling ke-i
+- \( n \): Jumlah titik sampling
+- \( d_i \): Jarak dari dinding ke titik sampling ke-i
+""")
+
 
     def tentukan_jumlah_titik(diameter, upstream, downstream):
         if diameter >= 0.61:
