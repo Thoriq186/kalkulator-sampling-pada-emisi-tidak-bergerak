@@ -1,1 +1,2 @@
-Kalkulator Sampling Emisi Tidak Bergerak
+ 📏 Kalkulator Titik Sampling Pada Emisi Tidak Bergerak yang berada di industri menengah kebawah 💨
+
