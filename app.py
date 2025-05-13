@@ -11,6 +11,48 @@ st.write("""
 Aplikasi ini akan menghitung lokasi titik sampling cerobong berdasarkan diameter dan jarak terhadap gangguan aliran sesuai standar metode 1 isokinetik.
 """)
 
+#Navigasi menggunakan radio button
+halaman = st.radio("Pilih Halaman", ["Penjelasan & Informasi 💡", "Kalkulator Titik sampling 🧮"])
+
+if halaman == "Penjelasan & Informasi 💡":
+    st.title("Informasi Mengenai sampling Emisi Tidak Bergerak")
+
+    st.markdown("""
+    ## Apa itu Sampling Emisi Tidak Bergerak?
+    Sampling emisi tidak bergerak adalah proses pengambilan cotoh gas buang dari sumber tetp, seperti cerobong industri untuk dianalisis kandungan plutannya. Ini penting untu mengevaluasi tigkat pencemaran udara dan kepatuhan terhadap regulasi lingkungan.
+
+    ### Tujuan Sampling
+    - Mengetahui konsentrasi polutan seperti SO₂, NOx, CO, NH₃, dan partikulat (TSP, PM10).
+    - Menilai efisiensi alat pengendali polusi udara.
+    - Memenuhi persyaratan peraturan pemerintah (SNI, Permen LH, USEPA).
+
+    ### Metode Sampling Isokinetik
+    - Sampling isokinetik dilakukan dengan menyamakan kecepatan aliran gas masuk probe dengan kecepatan gas buang di cerobong.
+    - Penting untuk mencegah over-sampling atau under-sampling.
+    - Menggunakan metode pembagian luas penampang cerobong (equal area) untuk menentukan titik pengambilan sampel.
+
+    ### Standar dan Regulasi
+    - SNI 7119.1:2017
+    - USEPA Method 1–5
+    - Permen LH No. 13 Tahun 2009
+    """)
+    
+elif halaman == "Kalkulator Titik Sampling":
+    st.title("Kalkulator Titik Sampling Cerobong Secara Isokinetik")
+    
+    st.markdown("""
+    Penentuan titik sampling dilakukan berdasarkan metode equal area, membagi luas penampang cerobong menjadi beberapa bagian sama.
+    Rumus dasar:
+    \[ r_i = R \sqrt{\frac{i}{n}} \]
+    \[ d_i = R - r_i \]
+
+    Dimana:
+    - \( R \): Jari-jari cerobong (cm)
+    - \( i \): Titik ke-i
+    - \( n \): Jumlah titik
+    - \( d_i \): Jarak dari dinding
+    """)
+
 # Sidebar for input
 with st.sidebar:
     st.header("Input Parameter")
