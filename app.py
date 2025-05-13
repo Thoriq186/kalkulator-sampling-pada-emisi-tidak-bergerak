@@ -68,7 +68,8 @@ $$
 - \( R \): Jari-jari cerobong (m)
 - \( i \): Titik sampling ke-i
 - \( n \): Jumlah titik sampling
-- \( d_i \): Jarak dari dinding ke titik sampling ke-i
+- \( d 
+i \): Jarak dari dinding ke titik sampling ke-i
 """)
 
 
