@@ -11,15 +11,25 @@ st.write("""
 Aplikasi ini akan menghitung lokasi titik sampling cerobong berdasarkan diameter dan jarak terhadap gangguan aliran sesuai standar metode 1 isokinetik.
 """)
 
-#Navigasi menggunakan radio button
-halaman = st.radio("Pilih Halaman", [ "Penjelasan & Informasi 💡", "Kalkulator Titik sampling 🧮"])
+# Sidebar untuk navigasi dan input
+with st.sidebar:
+    st.header("Navigasi Halaman")
+    halaman = st.radio("Pilih Halaman", ["Penjelasan & Informasi 💡", "Kalkulator Titik Sampling 🧮"])
 
+    if halaman == "Kalkulator Titik Sampling 🧮":
+        st.header("Input Parameter")
+        diameter = st.number_input("Diameter Cerobong (m)", min_value=0.1, step=0.01)
+        panjang_nipple = st.number_input("Panjang Nipple (m)", min_value=0.0, step=0.1)
+        upstream = st.number_input("Jarak Upstream dari Gangguan (m)", min_value=0.0, step=0.1)
+        downstream = st.number_input("Jarak Downstream dari Gangguan (m)", min_value=0.0, step=0.1)
+        hitung = st.button("Hitung Titik Sampling")
+
+# Konten halaman utama berdasarkan pilihan
 if halaman == "Penjelasan & Informasi 💡":
-    st.title("Informasi Mengenai sampling Emisi Tidak Bergerak")
-
+    st.title("Informasi Mengenai Sampling Emisi Tidak Bergerak")
     st.markdown("""
     ## Apa itu Sampling Emisi Tidak Bergerak?
-    Sampling emisi tidak bergerak adalah proses pengambilan cotoh gas buang dari sumber tetp, seperti cerobong industri untuk dianalisis kandungan plutannya. Ini penting untu mengevaluasi tigkat pencemaran udara dan kepatuhan terhadap regulasi lingkungan.
+    Sampling emisi tidak bergerak adalah proses pengambilan contoh gas buang dari sumber tetap, seperti cerobong industri, untuk dianalisis kandungan polutannya. Ini penting untuk mengevaluasi tingkat pencemaran udara dan kepatuhan terhadap regulasi lingkungan.
 
     ### Tujuan Sampling
     - Mengetahui konsentrasi polutan seperti SO₂, NOx, CO, NH₃, dan partikulat (TSP, PM10).
@@ -36,71 +46,58 @@ if halaman == "Penjelasan & Informasi 💡":
     - USEPA Method 1–5
     - Permen LH No. 13 Tahun 2009
     """)
-    
-elif halaman == "Kalkulator Titik Sampling":
+
+elif halaman == "Kalkulator Titik Sampling 🧮":
     st.title("Kalkulator Titik Sampling Cerobong Secara Isokinetik")
-    
-    st.markdown("""
-    Penentuan titik sampling dilakukan berdasarkan metode equal area, membagi luas penampang cerobong menjadi beberapa bagian sama.
+    st.markdown(r"""
+    Penentuan titik sampling dilakukan berdasarkan metode *equal area*, membagi luas penampang cerobong menjadi beberapa bagian sama.
+
     Rumus dasar:
     \[ r_i = R \sqrt{\frac{i}{n}} \]
     \[ d_i = R - r_i \]
 
     Dimana:
-    - \( R \): Jari-jari cerobong (cm)
+    - \( R \): Jari-jari cerobong (m)
     - \( i \): Titik ke-i
     - \( n \): Jumlah titik
     - \( d_i \): Jarak dari dinding
-    """)
+    """)
 
-# Sidebar for input
-with st.sidebar:
-    st.header("Input Parameter")
-    diameter = st.number_input("Diameter Cerobong (m)", min_value=0.1, step=0.01)
-    panjang_nipple = st.number_input("Panjang Nipple (m)", min_value=0.0, step=0.1)
-    upstream = st.number_input("Jarak Upstream dari Gangguan (m)", min_value=0.0, step=0.1)
-    downstream = st.number_input("Jarak Downstream dari Gangguan (m)", min_value=0.0, step=0.1)
-
-# Divider
-st.markdown("---")
-
-# Fungsi menentukan jumlah titik lintas
-def tentukan_jumlah_titik(diameter, upstream, downstream):
-    if diameter >= 0.61:
-        if upstream >= 8 * diameter and downstream >= 2 * diameter:
-            return 12
-        elif upstream >= 4 * diameter and downstream >= 1 * diameter:
-            return 10
-        else:
+    def tentukan_jumlah_titik(diameter, upstream, downstream):
+        if diameter >= 0.61:
+            if upstream >= 8 * diameter and downstream >= 2 * diameter:
+                return 12
+            elif upstream >= 4 * diameter and downstream >= 1 * diameter:
+                return 10
+            else:
+                return 8
+        elif 0.3 <= diameter < 0.61:
             return 8
-    elif 0.3 <= diameter < 0.61:
-        return 8
-    else:
-        return 6
+        else:
+            return 6
 
-# Tombol Hitung
-if st.button("Hitung Titik Sampling"):
-    if diameter > 0:
-        jumlah_titik = tentukan_jumlah_titik(diameter, upstream, downstream)
-        radius = diameter / 2
-        st.subheader("📍 Hasil Perhitungan")
-        st.write(f"Diameter cerobong: **{diameter} m**")
-        st.write(f"Jumlah titik lintas (otomatis): **{jumlah_titik} titik**")
+    if 'hitung' in locals() and hitung:
+        if diameter > 0:
+            jumlah_titik = tentukan_jumlah_titik(diameter, upstream, downstream)
+            radius = diameter / 2
+            st.subheader("📍 Hasil Perhitungan")
+            st.write(f"Diameter cerobong: **{diameter} m**")
+            st.write(f"Jumlah titik lintas (otomatis): **{jumlah_titik} titik**")
 
-        hasil = []
-        for i in range(1, jumlah_titik + 1):
-            posisi = radius * math.sqrt((i - 0.5) / jumlah_titik)
-            jarak_dari_tepi = round(radius - posisi, 3)
-            hasil.append(jarak_dari_tepi)
-            st.write(f"Titik {i}: {jarak_dari_tepi} m dari tepi cerobong")
+            hasil = []
+            for i in range(1, jumlah_titik + 1):
+                posisi = radius * math.sqrt((i - 0.5) / jumlah_titik)
+                jarak_dari_tepi = round(radius - posisi, 3)
+                hasil.append(jarak_dari_tepi)
+                st.write(f"Titik {i}: {jarak_dari_tepi} m dari tepi cerobong")
 
-        # Tabel hasil
-        st.subheader("📋 Tabel Titik Sampling")
-        st.table({f"Titik {i+1}": [f"{hasil[i]} m"] for i in range(len(hasil))})
+            # Tabel hasil
+            st.subheader("📋 Tabel Titik Sampling")
+            st.table({f"Titik {i+1}": [f"{hasil[i]} m"] for i in range(len(hasil))})
 
-        st.success("Perhitungan titik sampling selesai.")
-    else:
-        st.error("Masukkan diameter cerobong yang valid.")
+            st.success("Perhitungan titik sampling selesai.")
+        else:
+            st.error("Masukkan diameter cerobong yang valid.")
 
 st.markdown("---")
 st.caption("📘 Dibuat dengan Streamlit berdasarkan metode sampling isokinetik sesuai standar EPA.")
