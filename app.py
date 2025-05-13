@@ -5,7 +5,15 @@ st.set_page_config(page_title="Metode 1 Isokinetik Pada Emisi Tidak Bergerak", l
 
 # Title
 st.title(" 📏 Kalkulator Titik Sampling Pada Emisi Tidak Bergerak💨")
-st.subheader("untuk industri menengah ke bawah")
+st.markdown(
+    "<p style='font-size:14px;'>📏 Kalkulator Titik Sampling Emisi Tidak Bergerak 💨</p>",
+    unsafe_allow_html=True
+)
+st.markdown(
+    "<p style='font-size:13px; color:gray; text-align:center;'>Aplikasi untuk industri skala kecil hingga menengah</p>",
+    unsafe_allow_html=True
+)
+
 st.header(":blue[Metode 1 - Isokinetik Sampling]")
 
 st.write("""
