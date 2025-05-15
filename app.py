@@ -42,7 +42,7 @@ if halaman == "Penjelasan & Informasi 💡":
     - Menggunakan metode pembagian luas penampang cerobong (equal area) untuk menentukan titik pengambilan sampel.
 
     ### Standar dan Regulasi
-    - SNI 7117.13:2009
+    - SNI 7117.13.2009
     - USEPA Method 1–5
     - Permen LH No. 13 Tahun 2009
     """)
