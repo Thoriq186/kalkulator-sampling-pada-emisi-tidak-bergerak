@@ -6,7 +6,7 @@ import pandas as pd
 st.set_page_config(page_title="Kalkulator Sampling Emisi Isokinetik", layout="centered")
 
 # Judul Aplikasi
-st.title("📏 Kalkulator Sampling Emisi Tidak Bergerak")
+st.title("📏 Kalkulator Titik Sampling Emisi Tidak Bergerak")
 st.caption("🔬 Berdasarkan Metode 1 - Isokinetik (Equal Area)")
 
 # Sidebar Navigasi
@@ -112,22 +112,6 @@ elif halaman == "Penjelasan & Informasi 💡":
     - **Isokinetik** berarti kecepatan gas yang masuk ke probe sama dengan kecepatan gas di dalam cerobong.
     - Jika kecepatan tidak sesuai, maka hasil sampling bisa **terlalu banyak (over-sampling)** atau **terlalu sedikit (under-sampling)**.
     - Untuk menentukan titik pengambilan sampel, digunakan metode **equal area (pembagian luas penampang cerobong secara merata)**.
-
-    **Rumus Titik Sampling:**
-
-    $$
-    r_i = R \cdot \sqrt{\frac{i - 0.5}{n}}, \quad d_i = R - r_i
-    $$
-
-    ---
-
-    ## Persyaratan Penempatan Titik Sampling
-
-    | Kondisi Aliran           | Upstream Minimum | Downstream Minimum | Jumlah Titik |
-    |--------------------------|------------------|---------------------|--------------|
-    | Ideal                    | ≥ 8D             | ≥ 2D                | 12 titik     |
-    | Cukup Baik               | ≥ 4D             | ≥ 1D                | 10 titik     |
-    | Tidak Ideal              | < 4D atau < 1D   |                     | 8 titik      |
 
     ---
 
