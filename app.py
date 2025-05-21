@@ -1,17 +1,19 @@
 import streamlit as st
 import math
+import pandas as pd
 
+# Konfigurasi halaman
 st.set_page_config(page_title="Metode 1 Isokinetik Pada Emisi Tidak Bergerak", layout="centered")
 
-# Title
-st.title(" 📏 Kalkulator Titik Sampling Pada Emisi Tidak Bergerak 💨")
+# Judul Aplikasi
+st.title("📏 Kalkulator Titik Sampling Pada Emisi Tidak Bergerak 💨")
 st.header(":blue[Metode 1 - Isokinetik Sampling]")
 
 st.write("""
 Aplikasi ini akan menghitung lokasi titik sampling cerobong berdasarkan diameter dan jarak terhadap gangguan aliran sesuai standar metode 1 isokinetik.
 """)
 
-# Sidebar Input
+# Sidebar Navigasi
 with st.sidebar:
     st.header("Navigasi Halaman")
     halaman = st.radio("Pilih Halaman", ["Penjelasan & Informasi 💡", "Kalkulator Titik Sampling 🧮"])
@@ -26,7 +28,7 @@ with st.sidebar:
     else:
         diameter = panjang_nipple = upstream = downstream = hitung = None
 
-# Fungsi Penentu Titik
+# Fungsi untuk menentukan jumlah titik lintas
 def tentukan_jumlah_titik(diameter, upstream, downstream):
     if diameter >= 0.61:
         if upstream >= 8 * diameter and downstream >= 2 * diameter:
@@ -40,38 +42,53 @@ def tentukan_jumlah_titik(diameter, upstream, downstream):
     else:
         return 6
 
-# Konten Utama: Kalkulator
+# Halaman Kalkulator
 if halaman == "Kalkulator Titik Sampling 🧮":
     if hitung and diameter:
-        # Perhitungan dilakukan dulu
         jumlah_titik = tentukan_jumlah_titik(diameter, upstream, downstream)
         radius = diameter / 2
-        hasil = []
+
+        data_tabel = []
         for i in range(1, jumlah_titik + 1):
             posisi = radius * math.sqrt((i - 0.5) / jumlah_titik)
-            jarak_dari_tepi = round(radius - posisi, 3)
-            hasil.append(f"{jarak_dari_tepi} m")
+            jarak_dari_tepi = round(radius - posisi, 4)
+            jarak_dari_pusat = round(posisi, 4)
+            data_tabel.append({
+                "Titik ke-": i,
+                "Jarak dari tepi (m)": jarak_dari_tepi,
+                "Jarak dari pusat (m)": jarak_dari_pusat
+            })
 
-        # ⬆️ Bagian ini HARUS diletakkan di ATAS sebelum penjelasan metode
+        df_titik = pd.DataFrame(data_tabel)
+
+        # Menampilkan hasil
         st.subheader("📍 Hasil Perhitungan Titik Sampling")
         st.write(f"Diameter cerobong: **{diameter} m**")
         st.write(f"Jumlah titik lintas (otomatis): **{jumlah_titik} titik**")
-        for idx, nilai in enumerate(hasil):
-            st.write(f"Titik {idx+1}: {nilai} dari tepi cerobong")
+
         st.subheader("📋 Tabel Titik Sampling")
-        st.table({f"Titik {i+1}": [hasil[i]] for i in range(len(hasil))})
+        st.dataframe(df_titik, use_container_width=True)
+
+        # Opsi unduh CSV
+        csv = df_titik.to_csv(index=False).encode('utf-8')
+        st.download_button(
+            label="⬇️ Unduh Tabel sebagai CSV",
+            data=csv,
+            file_name='titik_sampling.csv',
+            mime='text/csv'
+        )
+
         st.success("Perhitungan titik sampling selesai.")
 
-    # ⬇️ Penjelasan metode di bawahnya
+    # Penjelasan rumus
     st.markdown(r"""
     ### 📐 Rumus Dasar
 
     Untuk metode equal area:
 
     $$
-    r_i = R \cdot \sqrt{\frac{i}{n}}
+    r_i = R \cdot \sqrt{\frac{i - 0.5}{n}}
     $$
-
     $$
     d_i = R - r_i
     $$
@@ -83,28 +100,16 @@ if halaman == "Kalkulator Titik Sampling 🧮":
     - \( d_i \): Jarak dari dinding ke titik sampling ke-i
     """)
 
-# Konten Informasi
+# Halaman Penjelasan & Informasi
 elif halaman == "Penjelasan & Informasi 💡":
     st.title("Informasi Mengenai Sampling Emisi Tidak Bergerak")
     st.markdown("""
     ## Apa itu Sampling Emisi Tidak Bergerak?
-    Sampling emisi tidak bergerak adalah proses pengambilan contoh gas buang dari sumber tetap, seperti cerobong industri, untuk dianalisis kandungan polutannya. Ini penting untuk mengevaluasi tingkat pencemaran udara dan kepatuhan terhadap regulasi lingkungan.
+    Sampling emisi tidak bergerak adalah proses pengambilan contoh gas buang dari sumber tetap, seperti cerobong industri, untuk dianalisis kandungan polutannya.
 
     ### Tujuan Sampling
     - Mengetahui konsentrasi polutan seperti SO₂, NOx, CO, NH₃, dan partikulat (TSP, PM10).
     - Menilai efisiensi alat pengendali polusi udara.
     - Memenuhi persyaratan peraturan pemerintah (SNI, Permen LH, USEPA).
 
-    ### Metode Sampling Isokinetik
-    - Sampling isokinetik dilakukan dengan menyamakan kecepatan aliran gas masuk probe dengan kecepatan gas buang di cerobong.
-    - Penting untuk mencegah over-sampling atau under-sampling.
-    - Menggunakan metode pembagian luas penampang cerobong (equal area) untuk menentukan titik pengambilan sampel.
-
-    ### Standar dan Regulasi
-    - SNI 7117.13.2009
-    - USEPA Method 1–5
-    - Permen LH No. 13 Tahun 2009
-    """)
-
-st.markdown("---")
-st.caption("📘 Dibuat dengan Streamlit berdasarkan metode sampling isokinetik sesuai standar EPA.")
+    ### Metode
