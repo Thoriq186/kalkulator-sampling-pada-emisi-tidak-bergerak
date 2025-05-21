@@ -3,7 +3,7 @@ import math
 
 st.set_page_config(page_title="Metode 1 Isokinetik Pada Emisi Tidak Bergerak", layout="centered")
 
-# Title di halaman utama
+# Title
 st.title(" 📏 Kalkulator Titik Sampling Pada Emisi Tidak Bergerak 💨")
 st.header(":blue[Metode 1 - Isokinetik Sampling]")
 
@@ -11,7 +11,7 @@ st.write("""
 Aplikasi ini akan menghitung lokasi titik sampling cerobong berdasarkan diameter dan jarak terhadap gangguan aliran sesuai standar metode 1 isokinetik.
 """)
 
-# Navigasi dan input/perhitungan di sidebar
+# Sidebar Input
 with st.sidebar:
     st.header("Navigasi Halaman")
     halaman = st.radio("Pilih Halaman", ["Penjelasan & Informasi 💡", "Kalkulator Titik Sampling 🧮"])
@@ -22,46 +22,65 @@ with st.sidebar:
         panjang_nipple = st.number_input("Panjang Nipple (m)", min_value=0.0, step=0.1)
         upstream = st.number_input("Jarak Upstream dari Gangguan (m)", min_value=0.0, step=0.1)
         downstream = st.number_input("Jarak Downstream dari Gangguan (m)", min_value=0.0, step=0.1)
-
-        def tentukan_jumlah_titik(diameter, upstream, downstream):
-            if diameter >= 0.61:
-                if upstream >= 8 * diameter and downstream >= 2 * diameter:
-                    return 12
-                elif upstream >= 4 * diameter and downstream >= 1 * diameter:
-                    return 10
-                else:
-                    return 8
-            elif 0.3 <= diameter < 0.61:
-                return 8
-            else:
-                return 6
-
         hitung = st.button("🔍 Hitung Titik Sampling")
-        if hitung:
-            if diameter > 0:
-                jumlah_titik = tentukan_jumlah_titik(diameter, upstream, downstream)
-                radius = diameter / 2
-                st.subheader("📍 Hasil Perhitungan")
-                st.write(f"Diameter cerobong: **{diameter} m**")
-                st.write(f"Jumlah titik lintas (otomatis): **{jumlah_titik} titik**")
+    else:
+        diameter = panjang_nipple = upstream = downstream = hitung = None
 
-                hasil = []
-                for i in range(1, jumlah_titik + 1):
-    posisi = radius * math.sqrt((i - 0.5) / jumlah_titik)
-    jarak_dari_tepi = round(radius - posisi, 3)
-    hasil.append((f"Titik {i}", f"{jarak_dari_tepi} m"))
+# Fungsi Penentu Titik
+def tentukan_jumlah_titik(diameter, upstream, downstream):
+    if diameter >= 0.61:
+        if upstream >= 8 * diameter and downstream >= 2 * diameter:
+            return 12
+        elif upstream >= 4 * diameter and downstream >= 1 * diameter:
+            return 10
+        else:
+            return 8
+    elif 0.3 <= diameter < 0.61:
+        return 8
+    else:
+        return 6
 
-# Tampilkan hasil sebagai tabel
-st.subheader("📋 Tabel Titik Sampling")
-st.table(dict(hasil))
+# Konten Utama: Kalkulator
+if halaman == "Kalkulator Titik Sampling 🧮":
+    if hitung and diameter:
+        jumlah_titik = tentukan_jumlah_titik(diameter, upstream, downstream)
+        radius = diameter / 2
+        hasil = []
+        for i in range(1, jumlah_titik + 1):
+            posisi = radius * math.sqrt((i - 0.5) / jumlah_titik)
+            jarak_dari_tepi = round(radius - posisi, 3)
+            hasil.append((f"Titik {i}", f"{jarak_dari_tepi} m"))
 
-st.success("Perhitungan titik sampling selesai.")
+        # 🔽 Hasil DITAMPILKAN di ATAS rumus
+        st.subheader("📍 Hasil Perhitungan Titik Sampling")
+        st.write(f"Diameter cerobong: **{diameter} m**")
+        st.write(f"Jumlah titik lintas: **{jumlah_titik} titik**")
+        st.table(dict(hasil))
+        st.success("Perhitungan titik sampling selesai.")
 
-            else:
-                st.error("Masukkan diameter cerobong yang valid.")
+    # Penjelasan metode (di bawah hasil)
+    st.markdown(r"""
+    ### 📐 Rumus Dasar
 
-# Konten utama berdasarkan pilihan
-if halaman == "Penjelasan & Informasi 💡":
+    Untuk metode equal area:
+
+    $$
+    r_i = R \cdot \sqrt{\frac{i}{n}}
+    $$
+
+    $$
+    d_i = R - r_i
+    $$
+
+    **Dimana:**
+    - \( R \): Jari-jari cerobong (m)  
+    - \( i \): Titik sampling ke-i  
+    - \( n \): Jumlah titik sampling  
+    - \( d_i \): Jarak dari dinding ke titik sampling ke-i
+    """)
+
+# Konten Informasi
+elif halaman == "Penjelasan & Informasi 💡":
     st.title("Informasi Mengenai Sampling Emisi Tidak Bergerak")
     st.markdown("""
     ## Apa itu Sampling Emisi Tidak Bergerak?
