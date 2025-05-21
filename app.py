@@ -4,7 +4,7 @@ import pandas as pd
 
 st.set_page_config(page_title="Kalkulator Titik Sampling Isokinetik", layout="centered")
 
-st.title("📏 Kalkulator Titik Sampling Emisi Tidak Bergerak")
+st.title("📏 Kalkulator kontol Sampling Emisi Tidak Bergerak")
 st.caption("🔬 Berdasarkan Metode 1 - Isokinetik (Equal Area)")
 
 # Input pengguna
