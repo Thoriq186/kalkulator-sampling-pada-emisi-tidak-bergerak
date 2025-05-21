@@ -11,18 +11,22 @@ st.write("""
 Aplikasi ini akan menghitung lokasi titik sampling cerobong berdasarkan diameter dan jarak terhadap gangguan aliran sesuai standar metode 1 isokinetik.
 """)
 
-# Sidebar untuk navigasi dan input
 with st.sidebar:
-    st.header("Navigasi Halaman")
-    halaman = st.radio("Pilih Halaman", ["Penjelasan & Informasi 💡", "Kalkulator Titik Sampling 🧮"])
-
+    ...
     if halaman == "Kalkulator Titik Sampling 🧮":
         st.header("Input Parameter")
         diameter = st.number_input("Diameter Cerobong (m)", min_value=0.1, step=0.01)
         panjang_nipple = st.number_input("Panjang Nipple (m)", min_value=0.0, step=0.1)
         upstream = st.number_input("Jarak Upstream dari Gangguan (m)", min_value=0.0, step=0.1)
         downstream = st.number_input("Jarak Downstream dari Gangguan (m)", min_value=0.0, step=0.1)
-        hitung = st.button("Hitung Titik Sampling")
+
+# Sekarang tombolnya di halaman utama
+if halaman == "Kalkulator Titik Sampling 🧮":
+    st.title("Kalkulator Titik Sampling Cerobong Secara Isokinetik")
+    st.markdown(r"""...""")  # markdown rumus kamu
+
+    hitung = st.button("🔍 Hitung Titik Sampling")  # ✅ tombol di halaman utama
+
 
 # Konten halaman utama berdasarkan pilihan
 if halaman == "Penjelasan & Informasi 💡":
