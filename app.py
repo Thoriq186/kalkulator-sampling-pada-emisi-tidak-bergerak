@@ -43,22 +43,26 @@ def tentukan_jumlah_titik(diameter, upstream, downstream):
 # Konten Utama: Kalkulator
 if halaman == "Kalkulator Titik Sampling 🧮":
     if hitung and diameter:
+        # Perhitungan dilakukan dulu
         jumlah_titik = tentukan_jumlah_titik(diameter, upstream, downstream)
         radius = diameter / 2
         hasil = []
         for i in range(1, jumlah_titik + 1):
             posisi = radius * math.sqrt((i - 0.5) / jumlah_titik)
             jarak_dari_tepi = round(radius - posisi, 3)
-            hasil.append((f"Titik {i}", f"{jarak_dari_tepi} m"))
+            hasil.append(f"{jarak_dari_tepi} m")
 
-        # 🔽 Hasil DITAMPILKAN di ATAS rumus
+        # ⬆️ Bagian ini HARUS diletakkan di ATAS sebelum penjelasan metode
         st.subheader("📍 Hasil Perhitungan Titik Sampling")
         st.write(f"Diameter cerobong: **{diameter} m**")
-        st.write(f"Jumlah titik lintas: **{jumlah_titik} titik**")
-        st.table(dict(hasil))
+        st.write(f"Jumlah titik lintas (otomatis): **{jumlah_titik} titik**")
+        for idx, nilai in enumerate(hasil):
+            st.write(f"Titik {idx+1}: {nilai} dari tepi cerobong")
+        st.subheader("📋 Tabel Titik Sampling")
+        st.table({f"Titik {i+1}": [hasil[i]] for i in range(len(hasil))})
         st.success("Perhitungan titik sampling selesai.")
 
-    # Penjelasan metode (di bawah hasil)
+    # ⬇️ Penjelasan metode di bawahnya
     st.markdown(r"""
     ### 📐 Rumus Dasar
 
